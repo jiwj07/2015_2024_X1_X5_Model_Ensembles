@@ -1,4 +1,4 @@
-# Ensemble-BR-HGBR X1-X4 2015-2024
+# Ensemble-BR-HGBR X1-X5 2015-2024
 
 # importing modules and packages
 import pandas as pd 
@@ -22,11 +22,11 @@ pd.set_option('display.width', 1000)
 
 # importing data
 df = pd.read_csv('2015-2024 River Data.csv')
-print("X1-X4 2015-2024 River Data.csv")
+print("2015-2024 River Data.csv")
 print("Ensemeble Models MSEs and MAEs")
 
 # creating feature variables
-X = df.drop(columns = ['Country', 'River', 'Land Area', 'X5 Population', 'Y AQI'])
+X = df.drop(columns = ['Country', 'River', 'Land Area', 'Y AQI'])
 y = df['Y AQI']
 
 # creating train and test sets
@@ -187,7 +187,7 @@ for (model_name, model) in models.items():
         "FA1": FactorAnalysis(n_components=1, max_iter=1000),
         "FA2": FactorAnalysis(n_components=2, max_iter=1000),
         "FA3": FactorAnalysis(n_components=3, max_iter=1000),
-        "ICA1": FastICA(n_components=1, tol=0.03, max_iter=1000),
+        "ICA1": FastICA(n_components=1, tol=0.05, max_iter=1000),
         "ICA2": FastICA(n_components=2, tol=0.05, max_iter=1000),
         "ICA3": FastICA(n_components=3, tol=0.05, max_iter=1000),
         "IPCA1": IncrementalPCA(n_components=1),
@@ -354,5 +354,5 @@ for (model_name, model) in models.items():
 # print results
 print()
 df_results = pd.DataFrame(results, columns=["Model", "Feature_Selection", "Dimensionality_Reduction_Technique", "CV MSE Mean", "CV MSE SD", "CV MAE Mean", "CV MAE SD", "Final MSE", "Final MAE"])
-df_results.to_csv('2015-2024 X1-X4 Results Ensemble KFold.csv', index=False)
+df_results.to_csv('2015-2024 X1-X5 Results Ensemble KFold.csv', index=False)
 print(df_results)
