@@ -1,4 +1,4 @@
-# BR+HGBR X1-X4 2015-2024
+# BR+HGBR X1-X5 2015-2024
 
 # importing modules and packages
 import pandas as pd 
@@ -22,11 +22,11 @@ pd.set_option('display.width', 1000)
 
 # importing data
 df = pd.read_csv('2015-2024 River Data.csv')
-print("2015-2024 X1-X4 River Data.csv")
+print("2015-2024 River Data.csv")
 print("Ensemeble Models MSEs and MAEs")
 
 # creating feature variables
-X = df.drop(columns = ['Country', 'River', 'Land Area', 'X5 Population', 'Y AQI'])
+X = df.drop(columns = ['Country', 'River', 'Land Area', 'Y AQI'])
 y = df['Y AQI']
 
 # creating train and test sets
@@ -354,5 +354,5 @@ for (model_name, model) in models.items():
 # print results
 print()
 df_results = pd.DataFrame(results, columns=["Model", "Feature_Selection", "Dimensionality_Reduction_Technique", "CV MSE Mean", "CV MSE SD", "CV MAE Mean", "CV MAE SD", "Final MSE", "Final MAE"])
-df_results.to_csv('2015-2024 X1-X4 Results Ensemble KFold.csv', mode='a', index=False, header=False)
+df_results.to_csv('2015-2024 X1-X5 Results Ensemble KFold.csv', mode='a', index=False, header=False)
 print(df_results)
