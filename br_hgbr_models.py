@@ -1,4 +1,4 @@
-# Ensemble-BR-HGBR X1-X4 2015-2024
+# BR+HGBR X1-X4 2015-2024
 
 # importing modules and packages
 import pandas as pd 
@@ -22,7 +22,7 @@ pd.set_option('display.width', 1000)
 
 # importing data
 df = pd.read_csv('2015-2024 River Data.csv')
-print("X1-X4 2015-2024 River Data.csv")
+print("2015-2024 X1-X4 River Data.csv")
 print("Ensemeble Models MSEs and MAEs")
 
 # creating feature variables
@@ -35,27 +35,27 @@ results = []
 
 # initialize models, scaler and KFold
 models = {
-    "ABR-L": AdaBoostRegressor(loss='linear'),
-    "ABR-S": AdaBoostRegressor(loss='square'),
-    "ABR-E": AdaBoostRegressor(loss='exponential'),
-    # "BR": BaggingRegressor(),
-    "ETR-S": ExtraTreesRegressor(criterion='squared_error'),
-    "ETR-A": ExtraTreesRegressor(criterion='absolute_error'),
-    "ETR-F": ExtraTreesRegressor(criterion='friedman_mse'),
-    "ETR-P": ExtraTreesRegressor(criterion='poisson'),
-    "GBR-SF": GradientBoostingRegressor(loss='squared_error', criterion='friedman_mse'),
-    "GBR-SS": GradientBoostingRegressor(loss='squared_error', criterion='squared_error'),
-    "GBR-AF": GradientBoostingRegressor(loss='absolute_error', criterion='friedman_mse'),
-    "GBR-AS": GradientBoostingRegressor(loss='absolute_error', criterion='squared_error'),
-    "GBR-HF": GradientBoostingRegressor(loss='huber', criterion='friedman_mse'),
-    "GBR-HS": GradientBoostingRegressor(loss='huber', criterion='squared_error'),
-    "GBR-QF": GradientBoostingRegressor(loss='quantile', criterion='friedman_mse'),
-    "GBR-QS": GradientBoostingRegressor(loss='quantile', criterion='squared_error'),
-    # "HGBR": HistGradientBoostingRegressor(max_iter=2000),
-    "RFR-S": RandomForestRegressor(criterion='squared_error'),
-    "RFR-A": RandomForestRegressor(criterion='absolute_error'),
-    "RFR-F": RandomForestRegressor(criterion='friedman_mse'),
-    "RFR-P": RandomForestRegressor(criterion='poisson')
+    # "ABR-L": AdaBoostRegressor(loss='linear'),
+    # "ABR-S": AdaBoostRegressor(loss='square'),
+    # "ABR-E": AdaBoostRegressor(loss='exponential'),
+    "BR": BaggingRegressor(),
+    # "ETR-S": ExtraTreesRegressor(criterion='squared_error'),
+    # "ETR-A": ExtraTreesRegressor(criterion='absolute_error'),
+    # "ETR-F": ExtraTreesRegressor(criterion='friedman_mse'),
+    # "ETR-P": ExtraTreesRegressor(criterion='poisson'),
+    # "GBR-SF": GradientBoostingRegressor(loss='squared_error', criterion='friedman_mse'),
+    # "GBR-SS": GradientBoostingRegressor(loss='squared_error', criterion='squared_error'),
+    # "GBR-AF": GradientBoostingRegressor(loss='absolute_error', criterion='friedman_mse'),
+    # "GBR-AS": GradientBoostingRegressor(loss='absolute_error', criterion='squared_error'),
+    # "GBR-HF": GradientBoostingRegressor(loss='huber', criterion='friedman_mse'),
+    # "GBR-HS": GradientBoostingRegressor(loss='huber', criterion='squared_error'),
+    # "GBR-QF": GradientBoostingRegressor(loss='quantile', criterion='friedman_mse'),
+    # "GBR-QS": GradientBoostingRegressor(loss='quantile', criterion='squared_error'),
+    "HGBR": HistGradientBoostingRegressor(max_iter=2000)
+    # "RFR-S": RandomForestRegressor(criterion='squared_error'),
+    # "RFR-A": RandomForestRegressor(criterion='absolute_error'),
+    # "RFR-F": RandomForestRegressor(criterion='friedman_mse'),
+    # "RFR-P": RandomForestRegressor(criterion='poisson')
 }
 scaler = MinMaxScaler(feature_range=(0, 1))
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
@@ -122,9 +122,9 @@ for (model_name, model) in models.items():
         "PCR1": SelectKBest(score_func=r_regression, k=1),
         "PCR2": SelectKBest(score_func=r_regression, k=2),
         "PCR3": SelectKBest(score_func=r_regression, k=3),
-        "RFE1": RFE(model, n_features_to_select=1),
-        "RFE2": RFE(model, n_features_to_select=2),
-        "RFE3": RFE(model, n_features_to_select=3)
+        # "RFE1": RFE(model, n_features_to_select=1),
+        # "RFE2": RFE(model, n_features_to_select=2),
+        # "RFE3": RFE(model, n_features_to_select=3),
     }
     
     for (fs_name, fs) in feature_selection_methods.items():
@@ -187,7 +187,7 @@ for (model_name, model) in models.items():
         "FA1": FactorAnalysis(n_components=1, max_iter=1000),
         "FA2": FactorAnalysis(n_components=2, max_iter=1000),
         "FA3": FactorAnalysis(n_components=3, max_iter=1000),
-        "ICA1": FastICA(n_components=1, tol=0.03, max_iter=1000),
+        "ICA1": FastICA(n_components=1, tol=0.05, max_iter=1000),
         "ICA2": FastICA(n_components=2, tol=0.05, max_iter=1000),
         "ICA3": FastICA(n_components=3, tol=0.05, max_iter=1000),
         "IPCA1": IncrementalPCA(n_components=1),
@@ -354,5 +354,5 @@ for (model_name, model) in models.items():
 # print results
 print()
 df_results = pd.DataFrame(results, columns=["Model", "Feature_Selection", "Dimensionality_Reduction_Technique", "CV MSE Mean", "CV MSE SD", "CV MAE Mean", "CV MAE SD", "Final MSE", "Final MAE"])
-df_results.to_csv('2015-2024 X1-X4 Results Ensemble KFold.csv', index=False)
+df_results.to_csv('2015-2024 X1-X4 Results Ensemble KFold.csv', mode='a', index=False, header=False)
 print(df_results)
